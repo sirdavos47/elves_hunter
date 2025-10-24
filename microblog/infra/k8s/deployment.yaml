@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microblog-backend
+  labels:
+    app: microblog
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: microblog
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: microblog
+        tier: backend
+    spec:
+      containers:
+        - name: backend
+          image: your-backend-image:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_URL
+              value: your-database-url
+            - name: JWT_SECRET
+              value: your-jwt-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microblog-frontend
+  labels:
+    app: microblog
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: microblog
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: microblog
+        tier: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: your-frontend-image:latest
+          ports:
+            - containerPort: 80
